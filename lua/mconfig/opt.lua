@@ -23,7 +23,6 @@ vim.opt.undofile = true
 
 -- Hovering Windows
 vim.o.winborder = "rounded"
-vim.o.autowrite
 
 -- Searching
 vim.opt.hlsearch = false
