@@ -1,7 +1,5 @@
 local M = {}
 
-
-are there noticable performance issued
 M.setup = function()
    vim.api.nvim_create_augroup("LiveShare", { clear = true })
    vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP", "TextChangedT", "TextYankPost" }, {
