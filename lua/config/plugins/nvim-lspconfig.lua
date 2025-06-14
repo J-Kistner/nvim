@@ -115,10 +115,16 @@ return {
                         },
                      },
                      diagnostics = {
+                        warningsAsInfo = true,
                         styleLints = {
                            enable = true,
                         },
                      },
+                     highlightRelated = {
+                        exitPoints = { enable = true },
+                        references = { enable = true },
+
+                     }
                   },
                },
                ---@diagnostic disable-next-line: unused-local

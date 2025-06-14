@@ -14,12 +14,13 @@ return {
             nerd_font_variant = "normal",
          },
          completion = {
+            -- ghost_text = { enabled = true },
             menu = { border = 'rounded' },
             documentation = { auto_show = true, window = { border = 'rounded' } },
          },
-         signature = { window = { border = 'rounded' } },
+         signature = { enabled = true, window = { border = 'rounded' } },
       },
-      sourcess = {
+      sources = {
          default = { "lsp", "path", "snippets", "buffer" },
       },
    }
