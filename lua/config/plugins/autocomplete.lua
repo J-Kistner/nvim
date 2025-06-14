@@ -7,6 +7,7 @@ return {
          keymap = {
             preset = "default",
             ["<C-space>"] = { "accept" },
+
          },
          appearance = {
             use_nvim_cmp_as_default = true,
@@ -14,7 +15,7 @@ return {
          },
          completion = {
             menu = { border = 'rounded' },
-            documentation = { window = { border = 'rounded' } },
+            documentation = { auto_show = true, window = { border = 'rounded' } },
          },
          signature = { window = { border = 'rounded' } },
       },
