@@ -8,7 +8,7 @@ return {
             playground = {
                enable = true,
                disable = {},
-               updatetime = 25,      -- Debounced time for highlighting nodes in the playground from source code
+               updatetime = 25,         -- Debounced time for highlighting nodes in the playground from source code
                persist_queries = false, -- Whether the query persists across vim sessions
                keybindings = {
                   toggle_query_editor = 'o',
@@ -29,7 +29,7 @@ return {
    config = function()
       require 'nvim-treesitter.configs'.setup {
          -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-         ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
+         ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "rust" },
 
          -- Install parsers synchronously (only applied to `ensure_installed`)
          sync_install = false,

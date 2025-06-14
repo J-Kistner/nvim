@@ -20,7 +20,6 @@ return {
       Key("n", "<leader>fh", builtin.help_tags, "( Telescope ) Find Help")
       Key("n", "<leader>fgf", builtin.git_files, "( Telescope ) Find Git Files")
       Key("n", "<leader>fgb", builtin.git_branches, "( Telescope ) Find Git Branches")
-      Key("ni", "<C-l>", builtin.spell_suggest, "( Telescope ) Spell Suggest")
       local live_grep = require("config.Telescope.live_grep")
       -- Key("n", "<C-g>", live_grep.multigrep, "( Telescope ) Live Grep")
       Key("n", "<C-g>", builtin.live_grep, "( Telescope ) Live Grep")

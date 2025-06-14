@@ -7,7 +7,8 @@ return {
             ft = "lua",
             opts = {
                library = {
-                  { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+                  { path = "${3rd}/luv/library",             words = { "vim%.uv" } },
+                  { path = "/home/Jacob/.config/lua-globals" },
                },
             },
          },
@@ -17,6 +18,7 @@ return {
       },
       opts = {
          servers = {
+            jdtls = {},
             lua_ls = {
                cmd = { "lua-language-server" },
                root_makers = { ".luarc.json", ".luarc.jsonc", ".git" },
@@ -24,11 +26,23 @@ return {
                   Lua = {
                      runtime = {
                         version = "LuaJIT",
+                        path = {
+                           "?.lua",
+                           "?/init.lua",
+                           "/home/Jacob/.config/lua-globals/?.lua",
+                           "/home/Jacob/.config/lua-globals/?/init.lua",
+                        },
                      },
                      diagnostics = {
-                        globals = { "vim" },
-                     }
-                  }
+                        globals = { "vim", "api" },
+                     },
+                     workspace = {
+                        library = {
+                           ["/home/Jacob/.config/lua-globals/"] = true,
+                        },
+                        checkThirdParty = false,
+                     },
+                  },
                }
             },
             basedpyright = {
@@ -53,6 +67,9 @@ return {
             },
             rust_analyzer = {
                cmd = { vim.fn.stdpath("data") .. "/mason/bin/rust-analyzer" },
+               formatting = {
+                  tabSize = 3,
+               },
                settings = {
                   ["rust_analyzer"] = {
                      check = {
@@ -101,7 +118,7 @@ return {
                         styleLints = {
                            enable = true,
                         },
-                     }
+                     },
                   },
                },
                ---@diagnostic disable-next-line: unused-local
@@ -140,6 +157,7 @@ return {
 
          -- Auto formatting on write with lsp
          vim.api.nvim_create_autocmd("LspAttach", {
+            group = "nvim-lspconfig",
             callback = function(args)
                -- Get the current lsp client
                local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -161,18 +179,19 @@ return {
 
          local lspconfig = require("lspconfig")
 
+         vim.api.nvim_create_autocmd("BufEnter", {
+            group = "nvim-lspconfig",
+            callback = function()
+               vim.lsp.inlay_hint.enable(true)
+            end,
+         })
+
          -- Configing lsps to use blink
          for server, config in pairs(opts.servers) do
             config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
             vim.lsp.enable(server, true)
             vim.diagnostic.enable(true)
             -- lspconfig[server].setup(config)
-            vim.api.nvim_create_autocmd("BufEnter", {
-               group = "nvim-lspconfig",
-               callback = function()
-                  vim.lsp.inlay_hint.enable(true)
-               end,
-            })
          end
       end
    },
