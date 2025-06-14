@@ -57,6 +57,7 @@ Key("n", "<leader>k", "<cmd>lprev<CR>zz", "Random Jump idrk")
 Key("nv", "<leader>d", "\"_d", "A delete that does not store the result.") -- TODO: Learn to press backslash
 Key("n", "<leader>P", "viwp", "Pastes inside the current word.")
 Key("x", "<leader>p", [["_dp]], "Paste from trash buffer.")
+Key("nvx", "<leader>y", "\"+y", "Yank to copy buffer.")
 
 -- I can't type backslash
 Key("i", "<F8>", "\\", "Types the backslash charecter")
