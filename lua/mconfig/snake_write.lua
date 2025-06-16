@@ -7,7 +7,7 @@ local function unbind()
 end
 
 local function bind()
-   vim.api.nvim_feedkeys("i", "n", false)
+   vim.api.nvim_feedkeys("a", "n", false)
    Key("i", "<Leader>", "_", "Temporary binding for _ seporation in snake case")
    Key("i", "<Leader><Leader>", function()
       unbind()
