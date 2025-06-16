@@ -18,6 +18,21 @@ return {
       },
       opts = {
          servers = {
+            ts_ls = {
+               on_attach = function(client, bufnr)
+                  -- Optional: Disable tsserver formatting if using prettier or null-ls
+                  client.server_capabilities.documentFormattingProvider = false
+
+                  -- Optional: Set keymaps or attach other tools here
+                  local bufmap = function(mode, lhs, rhs)
+                     vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, { noremap = true, silent = true })
+                  end
+
+                  bufmap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
+                  bufmap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
+                  bufmap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
+               end,
+            },
             jdtls = {},
             lua_ls = {
                cmd = { "lua-language-server" },
@@ -129,7 +144,6 @@ return {
                },
                ---@diagnostic disable-next-line: unused-local
                on_attach = function(client, bufnr)
-                  vim.lsp.inlay_hint(bufnr, true)
                   vim.lsp.inlay_hint.enable(true)
                end
             }
@@ -197,7 +211,7 @@ return {
             config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
             vim.lsp.enable(server, true)
             vim.diagnostic.enable(true)
-            -- lspconfig[server].setup(config)
+            lspconfig[server].setup(config)
          end
       end
    },
