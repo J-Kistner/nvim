@@ -33,7 +33,6 @@ return {
                   bufmap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
                end,
             },
-            jdtls = {},
             lua_ls = {
                cmd = { "lua-language-server" },
                root_makers = { ".luarc.json", ".luarc.jsonc", ".git" },
@@ -150,6 +149,24 @@ return {
          }
       },
       config = function(_, opts)
+         opts.servers.jdtls = {
+            cmd = { "jdtls", "-data", "/home/Jacob/.local/share/nvim/site/java/workspace-root/Template" },
+            root_dir = require('lspconfig.util').root_pattern("build.gradle", "settings.gradle", ".git"),
+            settings = {
+               java = {
+                  configuration = {
+                     runtimes = {
+                        { name = "JavaSE-17", path = "/usr/lib/jvm/java-17-openjdk" }
+                     }
+                  }
+               }
+            },
+            on_attach = function(client, bufnr)
+               print("jdtls attached")
+            end,
+         }
+
+
          -- For inline error messages
          vim.diagnostic.config({
             virtual_text = true, -- show inline text
@@ -159,8 +176,6 @@ return {
             severity_sort = true,
          })
 
-         vim.api.nvim_create_augroup("nvim-lspconfig", { clear = true })
-
          -- Lsp Key Maps
          local l = vim.lsp.buf
          Key("n", "<leader>h", l.hover, "( Lsp ) Show Hover")
@@ -169,11 +184,13 @@ return {
          Key("n", "<leader>fr", l.references, "( Lsp ) Find Refrences")
          Key("n", "<leader>rn", l.rename, "( Lsp ) Rename")
          Key("n", "<leader>gD", l.declaration, "( Lsp ) Go to Declaration")
-         Key("n", "<leader>ca", l.code_action, "( Lsp ) Go to Declaration")
+         Key("n", "<leader>ca", l.code_action, "( Lsp ) List codeations")
          Key("n", "<leader>q", function()
             vim.diagnostic.setqflist()
             vim.cmd("cope")
          end, "( Lsp ) Puts all of the error into a quickfix list.")
+
+         vim.api.nvim_create_augroup("nvim-lspconfig", { clear = true })
 
          -- Auto formatting on write with lsp
          vim.api.nvim_create_autocmd("LspAttach", {
@@ -196,6 +213,14 @@ return {
                end
             end,
          })
+
+         vim.api.nvim_create_user_command("LspPermaStop", function()
+            vim.cmd("LspStop")
+
+            vim.api.nvim_del_autocmd(
+               vim.api.nvim_get_autocmds({ group = "nvim-lspconfig" })[1].id
+            )
+         end, {})
 
          local lspconfig = require("lspconfig")
 
