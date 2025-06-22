@@ -22,7 +22,7 @@ vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 
 -- Hovering Windows
-vim.o.winborder = "rounded"
+vim.o.winborder = "none"
 
 -- Searching
 vim.opt.hlsearch = false
