@@ -12,6 +12,7 @@ vim.opt.softtabstop = 3
 vim.opt.shiftwidth = 3
 vim.opt.expandtab = true
 vim.opt.smartindent = true
+
 -- Wrapping
 vim.opt.wrap = false
 
@@ -22,7 +23,7 @@ vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 
 -- Hovering Windows
-vim.o.winborder = "none"
+vim.o.winborder = "rounded"
 
 -- Searching
 vim.opt.hlsearch = false
