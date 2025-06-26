@@ -80,7 +80,7 @@ return {
                },
             },
             rust_analyzer = {
-               cmd = { vim.fn.stdpath("data") .. "/mason/bin/rust-analyzer" },
+               -- cmd = { vim.fn.stdpath("data") .. "/mason/bin/rust-analyzer" },
                formatting = {
                   tabSize = 3,
                },
@@ -145,7 +145,14 @@ return {
                on_attach = function(client, bufnr)
                   vim.lsp.inlay_hint.enable(true)
                end
-            }
+            },
+            jsonls = {
+               settings = {
+                  json = {
+                     validate = { enable = true },
+                  },
+               },
+            },
          }
       },
       config = function(_, opts)
@@ -234,7 +241,7 @@ return {
          -- Configing lsps to use blink
          for server, config in pairs(opts.servers) do
             config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-            vim.lsp.enable(server, true)
+            -- vim.lsp.enable(server, true)
             vim.diagnostic.enable(true)
             lspconfig[server].setup(config)
          end
