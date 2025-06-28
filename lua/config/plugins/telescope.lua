@@ -4,12 +4,15 @@ return {
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       "nvim-lua/plenary.nvim",
    },
-   ops = {
-      extensions = {
-         fzf = {},
-      },
-   },
    config = function()
+      require("telescope").setup({
+         defaults = {
+            -- border = false, -- disables all borders
+         },
+         extensions = {
+            fzf = {},
+         },
+      })
       local builtin = require("telescope.builtin")
       ---@diagnostic disable-next-line: unused-local
       local telescope = require("telescope")
