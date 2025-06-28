@@ -23,7 +23,7 @@ vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 
 -- Hovering Windows
-vim.o.winborder = "rounded"
+-- vim.o.winborder = "rounded"
 
 -- Searching
 vim.opt.hlsearch = false
@@ -38,3 +38,6 @@ vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
+
+-- Empty line
+vim.opt.fillchars = { eob = " " }
