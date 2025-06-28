@@ -21,11 +21,10 @@ return {
       require("telescope").load_extension("fzf")
       Key("n", "<leader>ff", builtin.find_files, "( Telescope ) Find Files")
       Key("n", "<leader>fh", builtin.help_tags, "( Telescope ) Find Help")
-      Key("n", "<leader>fgf", builtin.git_files, "( Telescope ) Find Git Files")
-      Key("n", "<leader>fgb", builtin.git_branches, "( Telescope ) Find Git Branches")
+      Key("n", "<leader>Gf", builtin.git_files, "( Telescope ) Find Git Files")
+      Key("n", "<leader>Gb", builtin.git_branches, "( Telescope ) Find Git Branches")
       local live_grep = require("config.Telescope.live_grep")
-      -- Key("n", "<C-g>", live_grep.multigrep, "( Telescope ) Live Grep")
-      Key("n", "<C-g>", builtin.live_grep, "( Telescope ) Live Grep")
-      vim.api.nvim_create_user_command("Todo", live_grep.find_todo, {})
+      Key("n", "<C-g>", live_grep.multigrep(), "( Telescope ) Live Grep")
+      -- Key("n", "<C-g>", builtin.live_grep, "( Telescope ) Live Grep")
    end,
 }
