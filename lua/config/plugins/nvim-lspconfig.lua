@@ -146,6 +146,7 @@ return {
                   vim.lsp.inlay_hint.enable(true)
                end
             },
+            slint_lsp = {},
             jsonls = {
                settings = {
                   json = {
@@ -156,24 +157,6 @@ return {
          }
       },
       config = function(_, opts)
-         opts.servers.jdtls = {
-            cmd = { "jdtls", "-data", "/home/Jacob/.local/share/nvim/site/java/workspace-root/Template" },
-            root_dir = require('lspconfig.util').root_pattern("build.gradle", "settings.gradle", ".git"),
-            settings = {
-               java = {
-                  configuration = {
-                     runtimes = {
-                        { name = "JavaSE-17", path = "/usr/lib/jvm/java-17-openjdk" }
-                     }
-                  }
-               }
-            },
-            on_attach = function(client, bufnr)
-               print("jdtls attached")
-            end,
-         }
-
-
          -- For inline error messages
          vim.diagnostic.config({
             virtual_text = true, -- show inline text
@@ -185,7 +168,7 @@ return {
 
          -- Lsp Key Maps
          local l = vim.lsp.buf
-         Key("n", "<leader>h", l.hover, "( Lsp ) Show Hover")
+         -- Key("n", "<leader>h", function() l.hover({ border = "rounded" }) end, "( Lsp ) Show Hover")
          Key("n", "<leader>gd", l.definition, "( Lsp ) Go to Definition")
          Key("n", "<leader>gi", l.implementation, "( Lsp ) Go to Implementation")
          Key("n", "<leader>fr", l.references, "( Lsp ) Find Refrences")
@@ -241,9 +224,9 @@ return {
          -- Configing lsps to use blink
          for server, config in pairs(opts.servers) do
             config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-            -- vim.lsp.enable(server, true)
             vim.diagnostic.enable(true)
             lspconfig[server].setup(config)
+            vim.lsp.enable(server, true)
          end
       end
    },
