@@ -51,8 +51,6 @@ local live_multigrep = function(opts)
 end
 
 
-M.multigrep = function()
-   return live_multigrep
-end
+M.multigrep = live_multigrep
 
 return M

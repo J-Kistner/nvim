@@ -24,7 +24,6 @@ return {
       Key("n", "<leader>Gf", builtin.git_files, "( Telescope ) Find Git Files")
       Key("n", "<leader>Gb", builtin.git_branches, "( Telescope ) Find Git Branches")
       local live_grep = require("config.Telescope.live_grep")
-      Key("n", "<C-g>", live_grep.multigrep(), "( Telescope ) Live Grep")
-      -- Key("n", "<C-g>", builtin.live_grep, "( Telescope ) Live Grep")
+      Key("n", "<C-g>", live_grep.multigrep, "( Telescope ) Live Grep")
    end,
 }
