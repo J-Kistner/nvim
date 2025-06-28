@@ -35,7 +35,6 @@ Key(
 Key("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "Replace")
 
 -- Formatting
-Key("n", "<leader>fo", vim.lsp.buf.format, "Formats the file using the lsp.")
 Key("in", "<C-l>", function() vim.cmd("norm gcc") end, "Toggles comment on the current line.")
 
 -- Navigation
@@ -48,9 +47,6 @@ Key("n", "<C-d>", "<C-d>zz", "Center screen after half page jump. ")
 Key("n", "<C-u>", "<C-u>zz", "Center screen after half page jump. ")
 Key("n", "n", "nzzzv", "Center after find next")
 Key("n", "N", "Nzzzv", "Center after find next")
--- Look at cdo
-Key("n", "<C-j>", "<cmd>cnext<CR>zz", "Quick Fix Jump")
-Key("n", "<C-k>", "<cmd>cprev<CR>zz", "Quick Fix Jump")
 Key("n", "<leader>j", "<cmd>lnext<CR>zz", "Random Jump idrk")
 Key("n", "<leader>k", "<cmd>lprev<CR>zz", "Random Jump idrk")
 
@@ -62,3 +58,10 @@ Key("nvx", "<leader>y", "\"+y", "Yank to copy buffer.")
 
 -- I can't type backslash
 Key("i", "<F8>", "\\", "Types the backslash charecter")
+
+-- QuickFix
+Key("n", "<leader>co", function() vim.cmd("copen") end, "( QuickFix ) Opens a QuickFix")
+Key("n", "<leader>cc", function() vim.cmd("cclose") end, "( QuickFix ) Closes a QuickFix")
+Key("n", "<C-j>", "<cmd>cnext<CR>zz", "Quick Fix Jump")
+Key("n", "<C-k>", "<cmd>cprev<CR>zz", "Quick Fix Jump")
+-- Look at cdo
