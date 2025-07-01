@@ -1,21 +1,6 @@
 return {
    {
       "neovim/nvim-lspconfig",
-      dependencies = {
-         {
-            "folke/lazydev.nvim",
-            ft = "lua",
-            opts = {
-               library = {
-                  { path = "${3rd}/luv/library",             words = { "vim%.uv" } },
-                  { path = "/home/Jacob/.config/lua-globals" },
-               },
-            },
-         },
-         {
-            "saghen/blink.cmp",
-         },
-      },
       opts = {
          servers = {
             ts_ls = {
@@ -33,32 +18,11 @@ return {
                   bufmap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
                end,
             },
-            lua_ls = {
-               cmd = { "lua-language-server" },
-               root_makers = { ".luarc.json", ".luarc.jsonc", ".git" },
-               settings = {
-                  Lua = {
-                     runtime = {
-                        version = "LuaJIT",
-                        path = {
-                           "?.lua",
-                           "?/init.lua",
-                           "/home/Jacob/.config/lua-globals/?.lua",
-                           "/home/Jacob/.config/lua-globals/?/init.lua",
-                        },
-                     },
-                     diagnostics = {
-                        globals = { "vim", "api" },
-                     },
-                     workspace = {
-                        library = {
-                           ["/home/Jacob/.config/lua-globals/"] = true,
-                        },
-                        checkThirdParty = false,
-                     },
-                  },
-               }
+            tsstandard = {},
+            cssls = {
+               filetypes = { "css", "scss", "less", "jsx", "tsx" }
             },
+            lua_ls = {},
             basedpyright = {
                settings = {
                   basedpyright = {
@@ -168,7 +132,7 @@ return {
 
          -- Lsp Key Maps
          local l = vim.lsp.buf
-         -- Key("n", "<leader>h", function() l.hover({ border = "rounded" }) end, "( Lsp ) Show Hover")
+         Key("n", "<leader>h", function() l.hover({ border = "rounded" }) end, "( Lsp ) Show Hover")
          Key("n", "<leader>gd", l.definition, "( Lsp ) Go to Definition")
          Key("n", "<leader>gi", l.implementation, "( Lsp ) Go to Implementation")
          Key("n", "<leader>fr", l.references, "( Lsp ) Find Refrences")
@@ -221,12 +185,13 @@ return {
             end,
          })
 
+         vim.g.lazydev_enabled = true
+
          -- Configing lsps to use blink
          for server, config in pairs(opts.servers) do
             config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-            vim.diagnostic.enable(true)
             lspconfig[server].setup(config)
-            vim.lsp.enable(server, true)
+            vim.diagnostic.enable(true)
          end
       end
    },

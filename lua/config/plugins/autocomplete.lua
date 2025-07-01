@@ -1,5 +1,16 @@
 return {
    {
+      "folke/lazydev.nvim",
+      ft = "lua", -- only load on lua files
+      opts = {
+         library = {
+            "/home/Jacob/.config/lua-globals",
+            -- See the configuration section for more details
+            { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+         },
+      },
+   },
+   {
       "saghen/blink.cmp",
       dependencies = {
          "rafamadriz/friendly-snippets",
@@ -42,7 +53,6 @@ return {
                   name = "LazyDev",
                   module = "lazydev.integrations.blink",
                   -- make lazydev completions top priority (see `:h blink.cmp`)
-                  score_offset = 100,
                },
             },
          },

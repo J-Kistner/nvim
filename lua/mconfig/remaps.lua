@@ -36,6 +36,7 @@ Key("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "R
 
 -- Formatting
 Key("in", "<C-l>", function() vim.cmd("norm gcc") end, "Toggles comment on the current line.")
+Key("n", "<leader>fo", vim.lsp.buf.format, "Formats the file")
 
 -- Navigation
 Key("n", "E", "2be", "Moves to the end of the last word.")
