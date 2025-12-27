@@ -23,7 +23,7 @@ return {
                filetypes = { "css", "scss", "less", "jsx", "tsx" }
             },
             lua_ls = {},
-            basedpyright = {
+            pyright = {
                settings = {
                   basedpyright = {
                      analysis = {
@@ -176,8 +176,6 @@ return {
             )
          end, {})
 
-         local lspconfig = require("lspconfig")
-
          vim.api.nvim_create_autocmd("BufEnter", {
             group = "nvim-lspconfig",
             callback = function()
@@ -190,7 +188,8 @@ return {
          -- Configing lsps to use blink
          for server, config in pairs(opts.servers) do
             config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-            lspconfig[server].setup(config)
+            vim.lsp.config(server, config)
+            vim.lsp.enable(server)
             vim.diagnostic.enable(true)
          end
       end
