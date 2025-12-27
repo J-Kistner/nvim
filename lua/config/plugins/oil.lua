@@ -1,6 +1,6 @@
 return {
    {
-      "benomahony/oil-git.nvim",
+      "j-kistner/oil-git.nvim",
       dependencies = {
          "stevearc/oil.nvim",
          --@module "oil"
@@ -34,12 +34,18 @@ return {
          highlights = {
             OilGitAdded = { fg = "#bd93f9" },     -- green
             OilGitModified = { fg = "#E9729D" },  -- yellow
-            OilGitDeleted = { fg = "#FF4971" },   -- red
             OilGitRenamed = { fg = "#cba6f7" },   -- purple
             OilGitUntracked = { fg = "#89b4fa" }, -- blue
             OilGitIgnored = { fg = "#6c7086" },   -- gray
+         },
+         symbols = {
+            OilGitAdded = "+",
+            OilGitModified = "M",
+            OilGitRenamed = "R",
+            OilGitUntracked = "I",
+            OilGitIgnored = "I",
          }
-      }
+      },
    },
    {
       "JezerM/oil-lsp-diagnostics.nvim",
