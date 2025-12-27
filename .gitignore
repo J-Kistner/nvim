@@ -1,3 +1,4 @@
 plugin/
 .opencode/
+lua/nvim-plugins/
 lazy-lock.json

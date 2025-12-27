@@ -66,3 +66,6 @@ Key("n", "<leader>cc", function() vim.cmd("cclose") end, "( QuickFix ) Closes a 
 Key("n", "<C-j>", "<cmd>cnext<CR>zz", "Quick Fix Jump")
 Key("n", "<C-k>", "<cmd>cprev<CR>zz", "Quick Fix Jump")
 -- Look at cdo
+
+-- Terminal
+Key("t", "<C-c>", "<C-\\><C-n>", "Closes the terminal")

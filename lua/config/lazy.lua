@@ -21,4 +21,5 @@ require("lazy").setup({
       { import = "config.plugins" },
    },
    checker = { enabled = true },
+   ui = { border = "rounded" },
 })

@@ -1,5 +1,8 @@
 return {
    {
+      "sindrets/diffview.nvim",
+   },
+   {
       "tpope/vim-fugitive",
       config = function()
          Key("n", "<leader>GG", function()

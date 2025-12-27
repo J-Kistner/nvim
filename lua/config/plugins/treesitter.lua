@@ -5,6 +5,7 @@ return {
       dependencies = { {
          "nvim-treesitter/playground",
          config = function()
+            ---@diagnostic disable-next-line: missing-fields
             require "nvim-treesitter.configs".setup {
                playground = {
                   enable = true,
@@ -28,6 +29,7 @@ return {
          end,
       } },
       config = function()
+         ---@diagnostic disable-next-line: missing-fields
          require 'nvim-treesitter.configs'.setup {
             -- A list of parser names, or "all" (the listed parsers MUST always be installed)
             ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "rust" },
@@ -73,7 +75,7 @@ return {
    {
       "nvim-treesitter/nvim-treesitter-context",
       config = function()
-         vim.api.nvim_set_hl(0, "TreesitterContext", { bg = "#270f2d" })
+         vim.api.nvim_set_hl(0, "TreesitterContext", { bg = "#32033f" })
          require("treesitter-context").setup {
             enable = true, -- Enable this plugin (Can be toggled later)
             max_lines = 5, -- How many lines the context window can span
