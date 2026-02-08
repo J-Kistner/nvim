@@ -18,7 +18,6 @@ return {
                   bufmap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
                end,
             },
-            tsstandard = {},
             cssls = {
                filetypes = { "css", "scss", "less", "jsx", "tsx" }
             },
