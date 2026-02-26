@@ -6,9 +6,8 @@ return {
 			"nvim-java/nvim-java-core",
 			"nvim-java/nvim-java-test",
             "nvim-java/nvim-java-dap",
-            -- Re-add official refactor plugin and let it be managed as a
-            -- dependency so it's available when `require('java').setup()` runs.
-            "nvim-java/nvim-java-refactor",
+            -- Use nvim-java's built-in refactor features; do not load the
+            -- separate nvim-java-refactor plugin to avoid API conflicts.
 			"MunifTanjim/nui.nvim",
 			"neovim/nvim-lspconfig",
 			"mfussenegger/nvim-dap",
