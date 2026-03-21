@@ -1,8 +1,4 @@
 return {
-   "mason-org/mason.nvim",
-   opts = {
-      ensure_installed = {
-         "jdtls",
-      }
-   }
+   "williamboman/mason.nvim",
+   opts = {}
 }

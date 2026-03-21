@@ -27,6 +27,24 @@ return {
             ["<C-t>"] = {},
          },
       },
-      dependencies = { { "echasnovski/mini.icons", opts = {} }, },
+      dependencies = {
+         { "echasnovski/mini.icons", opts = {} },
+         {
+            "malewicz1337/oil-git.nvim",
+            dependencies = { "stevearc/oil.nvim" },
+            opts = {
+               show_file_highlights = true,
+               show_directory_highlights = true,
+               show_ignored_files = true,
+               highlights = {
+                  OilGitAdded = { fg = "#bd93f9" },     -- green
+                  OilGitModified = { fg = "#E9729D" },  -- yellow
+                  OilGitRenamed = { fg = "#cba6f7" },   -- purple
+                  OilGitUntracked = { fg = "#89b4fa" }, -- blue
+                  OilGitIgnored = { fg = "#6c7086" },   -- gray
+               },
+            },
+         },
+      },
    }
 }
