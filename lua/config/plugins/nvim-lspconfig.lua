@@ -109,15 +109,16 @@ return {
                   vim.lsp.inlay_hint.enable(true)
                end
             },
-            slint_lsp = {},
-            jsonls = {
-               settings = {
-                  json = {
-                     validate = { enable = true },
-                  },
-               },
-            },
-         }
+             slint_lsp = {},
+             jsonls = {
+                settings = {
+                    json = {
+                       validate = { enable = true },
+                    },
+                 },
+              },
+              -- jdtls handled by nvim-jdtls plugin
+          }
       },
       config = function(_, opts)
          -- For inline error messages
@@ -184,13 +185,14 @@ return {
 
          vim.g.lazydev_enabled = true
 
-         -- Configing lsps to use blink
-         for server, config in pairs(opts.servers) do
-            config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-            vim.lsp.config(server, config)
-            vim.lsp.enable(server)
-            vim.diagnostic.enable(true)
-         end
-      end
+            -- Configure lsps to use blink
+             for server, config in pairs(opts.servers) do
+                config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+                vim.lsp.config(server, config)
+                vim.lsp.enable(server)
+             end
+
+           vim.diagnostic.enable(true)
+       end
    },
 }
