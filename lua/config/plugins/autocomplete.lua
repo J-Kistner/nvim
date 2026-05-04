@@ -80,9 +80,8 @@ return {
    opts = {
       keymap = {
          preset = "default",
-         ["<C-Space>"] = { "show" }, -- open completion
-         ["<CR>"] = { "accept", "fallback" }, -- accept item, fallback to default CR if menu not visible
-         ["<C-k>"] = {},          -- disabled as before
+         ["<C-space>"] = { "accept" },
+         ["<C-k>"] = {},
       },
 
       appearance = {
