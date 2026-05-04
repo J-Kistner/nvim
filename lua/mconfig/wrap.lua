@@ -39,8 +39,8 @@ local function wrap_err()
 
    local buffer = vim.fn.bufnr()
 
-   vim.api.nvim_buf_set_text(buffer, srow, scol, srow, scol, { "Ok(" });
-   vim.api.nvim_buf_set_text(buffer, erow, ecol + 3, erow, ecol + 3, { ")" });
+   vim.api.nvim_buf_set_text(buffer, srow, scol, srow, scol, { "Err(" });
+   vim.api.nvim_buf_set_text(buffer, erow, ecol + 4, erow, ecol + 4, { ")" });
 end
 
 Key("n", "<leader>ws", wrap_some, "Wrap current node in Some()")
