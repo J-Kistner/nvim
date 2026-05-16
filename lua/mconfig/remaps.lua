@@ -70,5 +70,5 @@ Key("n", "<C-k>", "<cmd>cprev<CR>zz", "Quick Fix Jump")
 -- Terminal
 Key("t", "<C-c>", "<C-\\><C-n>", "Closes the terminal")
 
-Key("n", "PgDown", "$", "PgDown moves to the end of the line")
-Key("n", "PgUp", "^", "PgUp moves to the start of the chars")
+Key("n", "<PageDown>", "$", "PgDown moves to the end of the line")
+Key("n", "<PageUp>", "%", "PgUp moves to the start of the chars")
