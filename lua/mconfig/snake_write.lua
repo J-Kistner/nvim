@@ -4,6 +4,7 @@ local function unbind()
    vim.keymap.del("i", "<Leader><Leader>")
    vim.keymap.del("i", "<Esc>")
    vim.keymap.del("i", "<C-c>")
+   vim.keymap.del("i", "(")
 end
 
 local function bind()
@@ -17,6 +18,10 @@ local function bind()
    end, "Unbind for snake case")
    Key("i", "<Esc>", function()
       unbind()
+   end, "Unbind for snake case")
+   Key("i", "(", function()
+      unbind()
+      vim.api.nvim_feedkeys("a", "(", false)
    end, "Unbind for snake case")
 end
 
