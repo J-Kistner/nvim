@@ -35,7 +35,6 @@ Key(
 Key("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "Replace")
 
 -- Formatting
-Key("in", "<C-l>", function() vim.cmd("norm gcc") end, "Toggles comment on the current line.")
 Key("n", "<leader>fo", vim.lsp.buf.format, "Formats the file")
 
 -- Navigation
@@ -70,5 +69,16 @@ Key("n", "<C-k>", "<cmd>cprev<CR>zz", "Quick Fix Jump")
 -- Terminal
 Key("t", "<C-c>", "<C-\\><C-n>", "Closes the terminal")
 
-Key("n", "<PageDown>", "$", "PgDown moves to the end of the line")
-Key("n", "<PageUp>", "%", "PgUp moves to the start of the chars")
+Key("vn", "<PageDown>", "$", "PgDown moves to the end of the line")
+Key("vn", "<PageUp>", "%", "PgUp moves to the start of the chars")
+
+Key("n", "<C-l>", function() vim.cmd("checktime") end, "Reloads the file")
+
+-- Happy
+vim.keymap.set({ "n", "x" }, "j", function()
+   return vim.v.count == 0 and "gj" or "j"
+end, { expr = true })
+
+vim.keymap.set({ "n", "x" }, "k", function()
+   return vim.v.count == 0 and "gk" or "k"
+end, { expr = true })

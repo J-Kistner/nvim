@@ -7,7 +7,9 @@ return {
    config = function()
       require("telescope").setup({
          defaults = {
-            hidden = true,
+            find_files = {
+               hidden = true,
+            },
          },
          extensions = {
             fzf = {},
