@@ -6,7 +6,134 @@ return {
 		local jdtls = require("jdtls")
 
 		local home = os.getenv("HOME")
-		local jdtls_path = home .. "/.local/share/nvim/mason/packages/jdtls"
+
+		local function first_glob(pattern)
+			local matches = vim.fn.glob(pattern, false, true)
+			if type(matches) == "table" and #matches > 0 then
+				table.sort(matches)
+				return matches[1]
+			end
+			return nil
+		end
+
+		local function resolve_wpilib_jdk()
+			local candidates = {
+				home .. "/wpilib/2027_beta/jdk",
+				home .. "/wpilib/2027_alpha5/jdk",
+				home .. "/Storage/FRC/WIPLIB-2027-PRE/jdk",
+				home .. "/Storage/FRC/WIPLIB 2027/jdk",
+			}
+
+			for _, candidate in ipairs(candidates) do
+				if vim.fn.executable(candidate .. "/bin/java") == 1 then
+					return candidate
+				end
+			end
+
+			return nil
+		end
+
+		local function jdk_major(jdk_home)
+			local release_file = jdk_home .. "/release"
+			if vim.fn.filereadable(release_file) ~= 1 then
+				return nil
+			end
+			for _, line in ipairs(vim.fn.readfile(release_file)) do
+				local major = line:match('JAVA_VERSION="(%d+)')
+				if major then
+					return tonumber(major)
+				end
+			end
+			return nil
+		end
+
+		local function resolve_java_cmd(runs_on_java25)
+			local candidates = {}
+			local env_home = os.getenv("JAVA_HOME")
+			if env_home then
+				table.insert(candidates, env_home)
+			end
+			for _, jdk in ipairs(vim.fn.glob("/usr/lib/jvm/*", false, true)) do
+				if vim.fn.isdirectory(jdk) == 1 then
+					table.insert(candidates, jdk)
+				end
+			end
+
+			local function usable(jdk_home)
+				if vim.fn.executable(jdk_home .. "/bin/java") ~= 1 then
+					return false
+				end
+				local major = jdk_major(jdk_home)
+				if not major then
+					return false
+				end
+				if not runs_on_java25 and major >= 25 then
+					return false
+				end
+				return true
+			end
+
+			for _, jdk_home in ipairs(candidates) do
+				if usable(jdk_home) then
+					return jdk_home .. "/bin/java", jdk_home
+				end
+			end
+
+			if vim.fn.executable("java") == 1 then
+				return "java", nil
+			end
+			return nil, nil
+		end
+
+		local function resolve_jdtls_install()
+			local mason_dir = home .. "/.local/share/nvim/mason/packages/jdtls"
+			if vim.fn.isdirectory(mason_dir) == 1 then
+				return mason_dir
+			end
+
+			return nil
+		end
+
+		local function resolve_jdtls_bundles()
+			local bundles = {}
+			local seen = {}
+			local patterns = {
+				home .. "/.local/share/nvim/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar",
+				home .. "/.local/share/nvim/mason/packages/java-test/extension/server/*.jar",
+				home .. "/.local/share/nvim/mason/packages/java-test/extension/jar/*.jar",
+			}
+
+			for _, pattern in ipairs(patterns) do
+				local matches = vim.fn.glob(pattern, false, true)
+				if type(matches) == "table" and #matches > 0 then
+					table.sort(matches)
+					for _, item in ipairs(matches) do
+						if not seen[item] then
+							seen[item] = true
+							table.insert(bundles, item)
+						end
+					end
+				end
+			end
+
+			return bundles
+		end
+
+		local jdtls_path = resolve_jdtls_install()
+		if not jdtls_path then
+			vim.notify("jdtls install not found in mason (MasonInstall jdtls)", vim.log.levels.ERROR)
+			return
+		end
+
+		local jdtls_version = vim.fn.fnamemodify(jdtls_path, ":t"):match("^(%d+%.%d+)")
+		local jdtls_runs_on_java25 = not jdtls_version or jdtls_version >= "1.51"
+
+		local java_cmd, java_home = resolve_java_cmd(jdtls_runs_on_java25)
+		if not java_cmd then
+			vim.notify("java executable not found for jdtls", vim.log.levels.ERROR)
+			return
+		end
+		local project_java_home = resolve_wpilib_jdk() or java_home
 
 		local os_config = "linux"
 		if vim.fn.has("mac") == 1 then
@@ -15,18 +142,19 @@ return {
 			os_config = "win"
 		end
 
-		local launcher_jar = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
-		if launcher_jar == "" then
+		local launcher_jar = first_glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
+		if not launcher_jar then
 			vim.notify("jdtls launcher jar not found", vim.log.levels.ERROR)
 			return
 		end
 
 		local function get_config(root_dir)
-			local workspace_dir = home .. "/.local/share/nvim/jdtls-workspace/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
+			local project_name = vim.fn.fnamemodify(root_dir, ":p:t")
+			local workspace_dir = home .. "/.local/share/nvim/jdtls-workspace/" .. project_name
 
 			local config = {
 				cmd = {
-					"/usr/lib/jvm/java-17-openjdk/bin/java",
+					java_cmd,
 					"-Declipse.application=org.eclipse.jdt.ls.core.id1",
 					"-Dosgi.bundles.defaultStartLevel=4",
 					"-Declipse.product=org.eclipse.jdt.ls.core.product",
@@ -55,6 +183,33 @@ return {
 						},
 						configuration = {
 							updateBuildConfiguration = "interactive",
+							runtimes = (function()
+								local runtimes = {}
+								local seen = {}
+								local function add(jdk_home, default)
+									local major = jdk_major(jdk_home)
+									if not major then
+										return
+									end
+									local name = "JavaSE-" .. major
+									if not seen[name] then
+										seen[name] = true
+										table.insert(runtimes, { name = name, path = jdk_home, default = default })
+									end
+								end
+								add(project_java_home, true)
+								if java_home and java_home ~= project_java_home then
+									add(java_home, false)
+								end
+								return runtimes
+							end)(),
+						},
+						import = {
+							gradle = {
+								java = {
+									home = project_java_home,
+								},
+							},
 						},
 						maven = {
 							downloadSources = true,
@@ -105,7 +260,7 @@ return {
 				},
 
 				init_options = {
-					bundles = {},
+					bundles = resolve_jdtls_bundles(),
 				},
 			}
 
@@ -118,7 +273,7 @@ return {
 		end
 
 		local function setup_jdtls()
-			local root_markers = { "gradlew", "mvnw", ".git", "pom.xml", "build.gradle" }
+			local root_markers = { "mvnw", "gradlew", "pom.xml", "build.gradle", ".git" }
 			local root_dir = require("jdtls.setup").find_root(root_markers)
 			if not root_dir then
 				return
@@ -146,5 +301,9 @@ return {
 			pattern = "java",
 			callback = setup_jdtls,
 		})
+
+		if vim.bo.filetype == "java" then
+			setup_jdtls()
+		end
 	end,
 }
