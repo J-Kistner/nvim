@@ -86,10 +86,33 @@ end, { expr = true })
 vim.keymap.set("n", "<C-L>", "<C-I>", { desc = "Jump Forwards", noremap = false })
 
 -- Wrap
+
+WRAP_SET_MANUALLY = false
+
 Key("n", "<leader>wy", function()
    vim.opt.wrap = true
+   WRAP_SET_MANUALLY = true
 end, "(Wrap) Yes")
 
 Key("n", "<leader>wn", function()
    vim.opt.wrap = true
+   WRAP_SET_MANUALLY = true
 end, "(Wrap) No")
+
+vim.api.nvim_create_autocmd("BufEnter", {
+   pattern = "*.txt",
+   callback = function()
+      if ! WRAP_SET_MANUALLY then
+         vim.opt.wrap = true
+      end
+   end
+})
+
+vim.api.nvim_create_autocmd("BufLeave", {
+   pattern = "*.txt",
+   callback = function()
+      if ! WRAP_SET_MANUALLY then
+         vim.opt.wrap = false
+      end
+   end
+})
