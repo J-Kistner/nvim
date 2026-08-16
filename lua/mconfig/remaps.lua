@@ -82,3 +82,14 @@ end, { expr = true })
 vim.keymap.set({ "n", "x" }, "k", function()
    return vim.v.count == 0 and "gk" or "k"
 end, { expr = true })
+
+vim.keymap.set("n", "<C-L>", "<C-I>", { desc = "Jump Forwards", noremap = false })
+
+-- Wrap
+Key("n", "<leader>wy", function()
+   vim.opt.wrap = true
+end, "(Wrap) Yes")
+
+Key("n", "<leader>wn", function()
+   vim.opt.wrap = true
+end, "(Wrap) No")
