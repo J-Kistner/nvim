@@ -1,23 +1,5 @@
 return {
    {
-      "sindrets/diffview.nvim",
-      config = function()
-         require("diffview").setup({
-            view = {
-               default = {
-                  layout = "diff2_vertical",
-               },
-            },
-            file_panel = {
-               win_config = {
-                  position = "left",
-                  width = 0,
-               },
-            },
-         })
-      end
-   },
-   {
       "tpope/vim-fugitive",
       config = function()
          Key("n", "<leader>GG", function()
