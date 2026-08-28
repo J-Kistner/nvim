@@ -32,4 +32,4 @@ vim.g.maplocalleader = " "
 require("config.lazy")
 require("config.Oil")
 require("mconfig")
-vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin" .. ":" .. vim.env.PATH
+vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin" .. ":" .. vim.env.HOME .. "/.cargo/bin" .. ":" .. vim.env.PATH

@@ -109,16 +109,16 @@ return {
                   vim.lsp.inlay_hint.enable(true)
                end
             },
-             slint_lsp = {},
-             jsonls = {
-                settings = {
-                    json = {
-                       validate = { enable = true },
-                    },
-                 },
-              },
-              -- jdtls handled by nvim-jdtls plugin
-          }
+            slint_lsp = {},
+            jsonls = {
+               settings = {
+                  json = {
+                     validate = { enable = true },
+                  },
+               },
+            },
+            -- jdtls handled by nvim-jdtls plugin
+         }
       },
       config = function(_, opts)
          -- For inline error messages
@@ -143,6 +143,13 @@ return {
             vim.diagnostic.setqflist()
             vim.cmd("cope")
          end, "( Lsp ) Puts all of the error into a quickfix list.")
+         Key("n", "<leader>sd", function()
+            vim.diagnostic.open_float({
+               border = "rounded",
+               focusable = false,
+               style = "minimal",
+            })
+         end, "( Lsp ) Opens the diagnostic float")
 
          vim.api.nvim_create_augroup("nvim-lspconfig", { clear = true })
 
@@ -185,14 +192,14 @@ return {
 
          vim.g.lazydev_enabled = true
 
-            -- Configure lsps to use blink
-             for server, config in pairs(opts.servers) do
-                config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-                vim.lsp.config(server, config)
-                vim.lsp.enable(server)
-             end
+         -- Configure lsps to use blink
+         for server, config in pairs(opts.servers) do
+            config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+            vim.lsp.config(server, config)
+            vim.lsp.enable(server)
+         end
 
-           vim.diagnostic.enable(true)
-       end
+         vim.diagnostic.enable(true)
+      end
    },
 }
