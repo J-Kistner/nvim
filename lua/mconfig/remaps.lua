@@ -102,7 +102,7 @@ end, "(Wrap) No")
 vim.api.nvim_create_autocmd("BufEnter", {
    pattern = "*.txt",
    callback = function()
-      if ! WRAP_SET_MANUALLY then
+      if not WRAP_SET_MANUALLY then
          vim.opt.wrap = true
       end
    end
@@ -111,7 +111,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 vim.api.nvim_create_autocmd("BufLeave", {
    pattern = "*.txt",
    callback = function()
-      if ! WRAP_SET_MANUALLY then
+      if not WRAP_SET_MANUALLY then
          vim.opt.wrap = false
       end
    end
